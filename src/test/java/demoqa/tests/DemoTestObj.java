@@ -6,6 +6,7 @@ import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import demoqa.pages.RegistrationFormPage;
@@ -20,18 +21,22 @@ public class DemoTestObj {
     static void setUp(){
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("browserName", "chrome");
-        capabilities.setCapability("browserVersion", "100.0");
-        capabilities.setCapability("enableVNC", true);
-        capabilities.setCapability("enableVideo", true);
+        //Configuration.remote="https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        // Configuration.holdBrowserOpen = true;
 
-        Configuration.browserCapabilities = capabilities;
         Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-       // Configuration.holdBrowserOpen = true;
-        Configuration.remote="https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
+        Configuration.browser = System.getProperty("browser", "chrome");
+        Configuration.browserVersion = System.getProperty("browserVersion", "chrome");
 
+        if (System.getProperty("remote") != null) {
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setCapability("enableVNC", true);
+            capabilities.setCapability("enableVideo", true);
+
+            Configuration.browserCapabilities = capabilities;
+            Configuration.remote = System.getProperty("remote");
+        }
     }
 
     @AfterEach
@@ -43,6 +48,7 @@ public class DemoTestObj {
     }
 
     @Test
+    @Tag("choose_properties")
     void simpleTest(){
         registrationFormPage
                 .openPage()

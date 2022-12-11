@@ -47,6 +47,8 @@ tasks.withType(Test) {
     }
 }
 
-test {
-    useJUnitPlatform()
+task choose_properties(type: Test) {
+    useJUnitPlatform {
+        includeTags "choose_properties"
+    }
 }
