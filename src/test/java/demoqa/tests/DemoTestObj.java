@@ -25,9 +25,9 @@ public class DemoTestObj {
         // Configuration.holdBrowserOpen = true;
 
         Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.browserVersion = System.getProperty("browserVersion", "chrome");
+        Configuration.browserSize = System.getProperty("browserSize", "1920x1080");
 
         if (System.getProperty("remote") != null) {
             DesiredCapabilities capabilities = new DesiredCapabilities();
